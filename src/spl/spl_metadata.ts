@@ -14,9 +14,9 @@ import {
 import bs58 from "bs58";
 
 //paste your mint address got from spl_init.ts
-const mint = publicKey("E2Jazz2VXcVL9RZkn6ZFA4q1YGvgEvrns3Gr6w72DC4w");
+const mint = publicKey("9GkqGi2Yz5DX13eFnMDVcAA8WwV5u2TAvHsFxyJMd6Ux");
 
-const umi = createUmi("https://api.devnet.solana.com");
+const umi = createUmi("https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4099-a8c9-1c6d75d4e5d9");
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
 const signer = createSignerFromKeypair(umi, keypair);
@@ -26,22 +26,34 @@ umi.use(signerIdentity(signer));
 (async () => {
   try {
     const accounts: CreateMetadataAccountV3InstructionAccounts = {
-      mint,
+      mint, //the address
       mintAuthority: signer,
     };
 
     //change the metadata
-    // const data: DataV2Args =
+    const data: DataV2Args = {
+      name: "Skyper coin",
+      symbol: "SKY",
+      uri: "https://arweave.net/123456",
+      sellerFeeBasisPoints: 1,
+      creators: null,
+      collection: null,
+      uses: null,
+    }
 
-    // const args: CreateMetadataAccountV3InstructionArgs =
+    const args: CreateMetadataAccountV3InstructionArgs ={
+      data,
+      isMutable: true,
+      collectionDetails: null,
+    }
 
-    // const tx = createMetadataAccountV3(umi, {
-    //   ...accounts,
-    //   ...args,
-    // });
+    const tx = createMetadataAccountV3(umi, {
+      ...accounts,
+      ...args,
+    });
 
-    // const result = await tx.sendAndConfirm(umi);
-    // console.log("signature: ", bs58.encode(Buffer.from(result.signature)));
+    const result = await tx.sendAndConfirm(umi);
+    console.log("signature: ", bs58.encode(Buffer.from(result.signature)));
   } catch (error) {
     console.log("error", error);
   }

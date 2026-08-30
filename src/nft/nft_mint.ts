@@ -9,7 +9,7 @@ import { create, mplCore } from "@metaplex-foundation/mpl-core";
 import { base58 } from "@metaplex-foundation/umi/serializers";
 
 const umi = createUmi(
-  process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com",
+  process.env.SOLANA_RPC_URL ?? "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4099-a8c9-1c6d75d4e5d9",
 );
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
