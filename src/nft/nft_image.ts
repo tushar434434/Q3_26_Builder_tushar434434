@@ -10,10 +10,14 @@ import { readFile } from "fs/promises";
 import wallet from "../../my-wallet.json";
 
 const umi = createUmi(
-  process.env.SOLANA_RPC_URL ?? "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4099-a8c9-1c6d75d4e5d9",
+  process.env.SOLANA_RPC_URL ??
+    "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4091-a8c9-1c6d75d4e5d9",
 );
 
-const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
+const keypair = umi.eddsa.createKeypairFromSecretKey(
+  new Uint8Array(wallet),
+);
+
 const signer = createSignerFromKeypair(umi, keypair);
 
 umi.use(
@@ -26,15 +30,23 @@ umi.use(signerIdentity(signer));
 
 (async () => {
   try {
-    //chanege image path to your image path
-    const image = await readFile("file-path");
+    const image = await readFile(
+      "/home/tushar/spl-nft-q326/src/generug.png",
+    );
 
-    //change the image name and mime type
-    // const file =
+    const file = createGenericFile(
+      image,
+      "generug.png",
+      {
+        contentType: "image/png",
+      },
+    );
 
-    // const [myUri] =
-    // console.log("Your image URI: ", myUri);
+    // Upload ONLY ONCE
+    const [imageUri] = await umi.uploader.upload([file]);
+
+    console.log("IMAGE URI:", imageUri);
   } catch (error) {
-    console.log(error);
+    console.log("error:", error);
   }
 })();

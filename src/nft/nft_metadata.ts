@@ -2,15 +2,22 @@ import {
   createSignerFromKeypair,
   signerIdentity,
 } from "@metaplex-foundation/umi";
+
 import wallet from "../../devnet-wallet.json";
+
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+
 import { irysUploader } from "@metaplex-foundation/umi-uploader-irys";
 
 const umi = createUmi(
-  process.env.SOLANA_RPC_URL ?? "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4099-a8c9-1c6d75d4e5d9",
+  process.env.SOLANA_RPC_URL ??
+    "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4091-a8c9-1c6d75d4e5d9",
 );
 
-const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
+const keypair = umi.eddsa.createKeypairFromSecretKey(
+  new Uint8Array(wallet),
+);
+
 const signer = createSignerFromKeypair(umi, keypair);
 
 umi.use(
@@ -23,16 +30,44 @@ umi.use(signerIdentity(signer));
 
 (async () => {
   try {
-    //change the image uri to your image uri obtained from nft_image.ts
+    // Image URI obtained from nft_image.ts
     const image =
-      "https://gateway.irys.xyz/5EDyiNrMWfhjdsEwXLrwkHPwZoZB2m1A2Kudrfxo1tpr";
+      "https://gateway.irys.xyz/FausoWMc91qSBtsQU2X3RqJE5rfPMK4ccGooueGEZ3a7";
 
-    //json scheme : https://www.metaplex.com/docs/smart-contracts/core/json-schema
-    //change the metadata
-    // const metadata =
-    // const myUri =
-    // console.log(`metadata uri: ${myUri} `);
+    // NFT metadata
+    const metadata = {
+      name: "Tushar",
+      symbol: "TUSHAR",
+      description:
+        "Collection of 10 numbers on the blockchain. This is the number 1/10.",
+
+      image: image,
+
+      external_url: "https://example.com",
+
+      attributes: [
+        {
+          trait_type: "colour",
+          value: "red",
+        },
+      ],
+
+      properties: {
+        files: [
+          {
+            uri: image,
+            type: "image/png",
+          },
+        ],
+        category: "image",
+      },
+    };
+
+    // Upload metadata JSON to Irys
+    const metadataUri = await umi.uploader.uploadJson(metadata);
+
+    console.log("METADATA URI:", metadataUri);
   } catch (error) {
-    console.log("error", error);
+    console.log("error:", error);
   }
 })();
