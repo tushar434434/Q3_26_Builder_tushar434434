@@ -11,7 +11,7 @@ import wallet from "../../my-wallet.json";
 
 const umi = createUmi(
   process.env.SOLANA_RPC_URL ??
-    "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4091-a8c9-1c6d75d4e5d9",
+    "https://devnet.helius-rpc.com/?api-key=ca79b896-a662-4dae-b239-3005d401d5bb",
 );
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(

@@ -10,7 +10,7 @@ import { base58 } from "@metaplex-foundation/umi/serializers";
 import wallet from "../../devnet-wallet.json";
 
 const RPC_URL =
-  "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4099-a8c9-1c6d75d4e5d9";
+  "https://devnet.helius-rpc.com/?api-key=ca79b896-a662-4dae-b239-3005d401d5bb";
 
 const WS_URL =
   "wss://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4099-a8c9-1c6d75d4e5d9";
@@ -36,7 +36,7 @@ umi.use(mplCore());
   try {
     // Metadata URI uploaded to Irys
     const metadataUri =
-      "https://gateway.irys.xyz/75CR9YFWNU1wUjib5Bjqbf5519EGp2q9a3sn9SUo1Hn4";
+      "https://gateway.irys.xyz/FZpeTDRiwNmTnRm8LLW2z2cu5uaWa1tjn2UaUYrJDBx8";
 
     // Generate a new asset signer
     const asset = generateSigner(umi);

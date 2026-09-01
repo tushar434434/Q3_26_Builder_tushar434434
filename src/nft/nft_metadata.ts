@@ -9,10 +9,11 @@ import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 
 import { irysUploader } from "@metaplex-foundation/umi-uploader-irys";
 
-const umi = createUmi(
-  process.env.SOLANA_RPC_URL ??
-    "https://devnet.helius-rpc.com/?api-key=c2e70dbf-7a4d-4091-a8c9-1c6d75d4e5d9",
-);
+const API_KEY = "ca79b896-a662-4dae-b239-3005d401d5bb";
+
+const RPC_URL = `https://devnet.helius-rpc.com/?api-key=${API_KEY}`;
+
+const umi = createUmi(RPC_URL);
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(
   new Uint8Array(wallet),
@@ -20,26 +21,23 @@ const keypair = umi.eddsa.createKeypairFromSecretKey(
 
 const signer = createSignerFromKeypair(umi, keypair);
 
+umi.use(signerIdentity(signer));
+
 umi.use(
   irysUploader({
     address: "https://devnet.irys.xyz/",
   }),
 );
 
-umi.use(signerIdentity(signer));
-
 (async () => {
   try {
-    // Image URI obtained from nft_image.ts
     const image =
       "https://gateway.irys.xyz/FausoWMc91qSBtsQU2X3RqJE5rfPMK4ccGooueGEZ3a7";
 
-    // NFT metadata
     const metadata = {
-      name: "Tushar",
+      name: "Tushar updated",
       symbol: "TUSHAR",
-      description:
-        "Collection of 10 numbers on the blockchain. This is the number 1/10.",
+      description: "Updated NFT metadata",
 
       image: image,
 
@@ -63,11 +61,12 @@ umi.use(signerIdentity(signer));
       },
     };
 
-    // Upload metadata JSON to Irys
+    console.log("Uploading metadata...");
+
     const metadataUri = await umi.uploader.uploadJson(metadata);
 
     console.log("METADATA URI:", metadataUri);
   } catch (error) {
-    console.log("error:", error);
+    console.error("ERROR:", error);
   }
 })();
