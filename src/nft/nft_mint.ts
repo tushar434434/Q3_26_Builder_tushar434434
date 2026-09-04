@@ -67,3 +67,6 @@ umi.use(mplCore());
     console.error(error);
   }
 })();
+
+//revising the concept of minting an NFT using the Metaplex SDK and Helius RPC. The code initializes the Umi environment, creates a signer from a provided wallet, and then generates a new asset signer for the NFT. It sets the metadata URI for the NFT and sends a transaction to create the NFT on the Solana blockchain. Upon successful minting, it logs the transaction signature and asset public key.
+//the workflow involves setting up the necessary environment, handling keypairs and signers, and interacting with the Metaplex SDK to facilitate the minting process. The code also includes error handling to catch any issues that may arise during the minting process.
